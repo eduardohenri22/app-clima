@@ -14,8 +14,8 @@ function App() {
     setCity(event.target.value)
   }
 
-  const handleSearch = () =>{
-    fetch(`http://api.weatherapi.com/v1/current.json?key=adc016c9b0844e9fb73192053233103&q=${city}&lang=pt`)
+  const handleSearch = async () =>{
+    await fetch(`http://api.weatherapi.com/v1/current.json?key=adc016c9b0844e9fb73192053233103&q=${city}&lang=pt`)
     .then((res)=> {
       if(res.status == 200){
         return res.json()
