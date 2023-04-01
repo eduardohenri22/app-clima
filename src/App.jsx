@@ -3,6 +3,7 @@ import './App.css'
 import { TiWeatherStormy } from 'react-icons/ti'
 import {FiSearch} from 'react-icons/fi'
 import { RiFahrenheitLine,RiCelsiusLine  } from 'react-icons/ri'
+import {AiFillGithub } from 'react-icons/ai'
 import { useState } from 'react'
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
             placeholder='Buscar cidade' 
             value={city}
             onChange={handleCity}
+            required
             />
             <button onClick={handleSearch}><FiSearch className='search'/></button>
           </div>
@@ -60,12 +62,19 @@ function App() {
 
               <div className='description'>
                 <h3>Céu: {weather.current.condition.text} </h3>
-                <p>Temperaturas: {weather.current.temp_f} <RiFahrenheitLine className='weatherF' />, {weather.current.temp_c} <RiCelsiusLine className='weatherC'/></p>
+                <p>Temperaturas: {weather.current.temp_f}<RiFahrenheitLine className='weatherF'/>, {weather.current.temp_c}<RiCelsiusLine className='weatherC'/></p>
            
                 <span className='spanState'>Estado: {weather.location.region}</span>
+                <span className='country'>Pais: {weather.location.country}</span>
               </div>
           </div>
           ) : null}
+
+          <div className='footer'>
+            <h3>Develop: Eduardo Henrique </h3> 
+            <AiFillGithub className='githubIcon' /><a className='link' href="https://github.com/eduardohenri22/app-clima">Repositório</a>
+           
+          </div>
     </main>
     </>
     
