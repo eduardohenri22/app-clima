@@ -1,34 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
+import { TiWeatherStormy } from 'react-icons/ti'
+import {FiSearch} from 'react-icons/fi'
+import { RiFahrenheitLine,RiCelsiusLine  } from 'react-icons/ri'
+import { useState } from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [city, setCity] = useState("")  
+  const [weather, setWeather] = useState(null)
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+  const handleCity = (event) =>{
+    setCity(event.target.value)
+  }
+
+  const handleSearch = () =>{
+    fetch(`http://api.weatherapi.com/v1/current.json?key=adc016c9b0844e9fb73192053233103&q=${city}&lang=pt`)
+    .then((res)=> {
+      if(res.status == 200){
+        return res.json()
+      }
+    })
+    .then((data) =>{
+      console.log(data)
+      setWeather(data)
+    })
+  }
+
+  return (  
+    <>
+
+    <div className='header'>
+
+      <TiWeatherStormy className='logo'/>
+      <h1 className='nameApp'>App Clima</h1>
+ 
     </div>
+
+    <main className='container'>
+        <div className='searchWeather'>
+            <h2> Busque aqui o clima de qualquer cidade do Mundo!</h2>
+          <div className='divInput'>
+            <input 
+            type="text" 
+            placeholder='Buscar cidade' 
+            value={city}
+            onChange={handleCity}
+            />
+            <button onClick={handleSearch}><FiSearch className='search'/></button>
+          </div>
+        </div>
+
+        { weather ? (
+            <div className='containerResult'>
+              <div className='divResult'>
+                <h1 className='h1City'>{weather.location.name}</h1>
+                <img src={weather.current.condition.icon}/>
+                <p>    {weather.location.localtime}</p>
+              </div>
+
+              <div className='description'>
+                <h3>Céu: {weather.current.condition.text} </h3>
+                <p>Temperaturas: {weather.current.temp_f} <RiFahrenheitLine className='weatherF' />, {weather.current.temp_c} <RiCelsiusLine className='weatherC'/></p>
+           
+                <span className='spanState'>Estado: {weather.location.region}</span>
+              </div>
+          </div>
+          ) : null}
+    </main>
+    </>
+    
+
+
+    
   )
 }
 
